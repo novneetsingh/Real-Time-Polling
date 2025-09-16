@@ -9,15 +9,15 @@ export function initSocket(server) {
     console.log("Client connected:", socket.id);
 
     // Join poll room
-    socket.on("joinPoll", (pollId) => {
-      socket.join(`poll_${pollId}`);
-      console.log(`Socket ${socket.id} joined poll_${pollId}`);
+    socket.on("joinPoll", (data) => {
+      socket.join(`poll_${data.pollId}`);
+      console.log(`Socket ${socket.id} joined poll_${data.pollId}`);
     });
 
     // Leave poll room
-    socket.on("leavePoll", (pollId) => {
-      socket.leave(`poll_${pollId}`);
-      console.log(`Socket ${socket.id} left poll_${pollId}`);
+    socket.on("leavePoll", (data) => {
+      socket.leave(`poll_${data.pollId}`);
+      console.log(`Socket ${socket.id} left poll_${data.pollId}`);
     });
 
     socket.on("disconnect", () => {

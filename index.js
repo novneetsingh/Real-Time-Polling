@@ -6,6 +6,7 @@ import http from "http";
 import { initSocket } from "./socket.js";
 import userRouter from "./routes/user.route.js";
 import pollRouter from "./routes/poll.route.js";
+import voteRouter from "./routes/vote.route.js";
 
 // Load environment variables
 dotenv.config();
@@ -48,6 +49,7 @@ app.get("/", (req, res) => {
 // API routes
 app.use("/users", userRouter);
 app.use("/polls", pollRouter);
+app.use("/votes", voteRouter);
 
 // Start server
 const port = process.env.PORT || 3000;

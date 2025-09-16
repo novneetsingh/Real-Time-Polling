@@ -2,8 +2,23 @@ import { prisma } from "../config/prisma.js";
 
 // create a poll
 export const createPoll = async (req, res) => {
-  const { creatorId, question, options } = req.body;
   try {
+    const { creatorId, question, options } = req.body;
+
+    if (!creatorId || !question || !options) {
+      return res.status(400).json({
+        success: false,
+        message: "CreatorId, question, and options are required",
+      });
+    }
+
+    if (options.length < 2) {
+      return res.status(400).json({
+        success: false,
+        message: "At least 2 options are required",
+      });
+    }
+
     const poll = await prisma.poll.create({
       data: {
         creatorId,
