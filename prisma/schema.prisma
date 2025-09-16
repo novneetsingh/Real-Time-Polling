@@ -19,4 +19,35 @@ model User {
   name         String
   email        String @unique
   passwordHash String
+  Poll         Poll[]
+  Vote         Vote[]
+}
+
+model Poll {
+  id          Int          @id @default(autoincrement())
+  creatorId   Int
+  creator     User         @relation(fields: [creatorId], references: [id])
+  question    String
+  isPublished Boolean      @default(false)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  options     PollOption[]
+}
+
+model PollOption {
+  id     Int    @id @default(autoincrement())
+  pollId Int
+  poll   Poll   @relation(fields: [pollId], references: [id])
+  text   String
+  votes  Vote[]
+}
+
+model Vote {
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  user         User       @relation(fields: [userId], references: [id])
+  pollOptionId Int
+  pollOption   PollOption @relation(fields: [pollOptionId], references: [id])
+
+  @@unique([userId, pollOptionId]) // A user can only vote once per option
 }
